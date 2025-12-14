@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useStoryblokApi } from '@storyblok/react';
 import { useLanguage, Language } from '../contexts/LanguageContext';
@@ -95,9 +95,8 @@ const Header: React.FC = () => {
             </button>
           </div>
 
-          {/* MOBILE MENU BUTTON */}
-          <button
-            className="mobile-menu-btn"
+          <button 
+            className={`mobile-menu-btn ${mobileMenuOpen ? 'open' : ''}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -105,10 +104,31 @@ const Header: React.FC = () => {
             <span></span>
             <span></span>
           </button>
-
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <nav className="mobile-menu">
+          <Link 
+            to="/" 
+            className={`mobile-menu__link ${isActive('/') ? 'active' : ''}`}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            {t('nav.home')}
+          </Link>
+          <Link 
+            to="/about" 
+            className={`mobile-menu__link ${isActive('/about') ? 'active' : ''}`}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            {t('nav.about')}
+          </Link>
+          
+        </nav>
+      )}
     </header>
+
   );
 };
 
